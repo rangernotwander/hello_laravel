@@ -1,0 +1,37 @@
+// 导入 Bootstrap 核心样式
+@import "bootstrap/scss/bootstrap";
+
+// 自定义全局样式（模仿老教程的美化效果）
+body {
+    font-size: 14px;
+    font-weight: normal;
+}
+
+// 顶部导航下方增加间距
+.navbar {
+    margin-bottom: 20px;
+}
+/* Footer Styles */
+.footer {
+    margin-top: 45px;
+    padding-top: 10px;
+    border-top: 1px solid #eaeaea;
+    color: #777;
+    font-size: 13px;
+    font-weight: bold;
+
+    a {
+        color: #555;
+        text-decoration: none;
+
+        &:hover {
+            color: #222;
+        }
+    }
+
+    .brand-icon {
+        width: 16px;
+        height: 16px;
+        vertical-align: middle;
+    }
+}
