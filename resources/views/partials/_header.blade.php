@@ -4,10 +4,10 @@
         <a class="navbar-brand" href="{{ route('home') }}">MyBlog</a>
         <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-                <a class="nav-link" href="/help">帮助</a>
+                <a class="nav-link" href="{{route('help')}}">帮助</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/login">登录</a>
+                <a class="nav-link" href="#">登录</a>
             </li>
         </ul>
     </div>
