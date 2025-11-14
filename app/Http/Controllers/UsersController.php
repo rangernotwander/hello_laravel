@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User; //← 必须引入 User 模型
 
 class UsersController extends Controller
 {
@@ -11,5 +12,11 @@ class UsersController extends Controller
     {
         return view('users.create');
     }
+    // 显示用户个人资料页（隐性模型绑定）
+    public function show(User $user)
+    {
+        return view('users.show',compact('user'));
+    }
+
 
 }

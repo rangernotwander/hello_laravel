@@ -45,4 +45,13 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * 获取用户的 Gravatar 头像 URL（使用 V2EX CDN 加速）
+     */
+    public function gravatar($size = 100): string
+    {
+        $hash = md5(strtolower(trim($this->email)));
+        return "https://cdn.v2ex.com/gravatar/{$hash}?s={$size}";
+    }
 }
