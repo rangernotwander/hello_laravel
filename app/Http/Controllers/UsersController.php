@@ -18,5 +18,18 @@ class UsersController extends Controller
         return view('users.show',compact('user'));
     }
 
+    public function store(Request $request)
+    {
+        // ✅ 现代写法：直接调用 $request->validate()
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:50', 'unique:users'],
+            'email' => ['required', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
+        ]);
+
+        // 暂时不创建用户，先测试验证是否生效
+        dd($data); // 临时：打印验证通过的数据
+    }
+
 
 }
