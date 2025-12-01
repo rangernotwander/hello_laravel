@@ -16,6 +16,7 @@
 
 {{-- 页面主体内容 --}}
     <div class="container">
+        @include('shared._messages') {{-- 👈 所有页面自动支持 --}}
         @yield('content')
     </div>
     {{-- 👇 新增：引入页脚 --}}

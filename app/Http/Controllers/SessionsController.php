@@ -27,7 +27,7 @@ class SessionsController extends Controller
         ]);
 
         // 尝试登录
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials,$request->boolean('remember'))) {
             // 防止会话固定攻击（可选但推荐）
             $request->session()->regenerate();
 
@@ -50,6 +50,6 @@ class SessionsController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/')->with('success', '您已成功退出！'); // 👈 添加闪存消息
     }
 }

@@ -9,7 +9,7 @@
       <h5>登录</h5>
     </div>
     <div class="card-body">
-      @include('shared._messages') {{-- 使用你已有的消息组件 --}}
+      @include('shared._messages')
 
       <form method="POST" action="{{ route('login') }}">
         @csrf
@@ -22,6 +22,12 @@
         <div class="mb-3">
           <label for="password" class="form-label">密码：</label>
           <input type="password" name="password" class="form-control" required>
+        </div>
+
+        {{-- 👇 新增：记住我复选框 --}}
+        <div class="mb-3 form-check">
+          <input type="checkbox" class="form-check-input" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+          <label class="form-check-label" for="remember">记住我</label>
         </div>
 
         <button type="submit" class="btn btn-primary">登录</button>
