@@ -8,7 +8,9 @@
             <h5>注册</h5>
         </div>
         <div class="card-body">
-            <form method="POST" action="{{ route('users.store') }}">
+            {{-- 👇 引入全局错误提示 --}}
+            @include('shared._errors')
+            <form method="POST" action="{{ route('users.store') }}" novalidate>
                 @csrf <!-- 必须添加 CSRF 保护 -->
 
                 <div class="mb-3">
