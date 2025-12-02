@@ -11,7 +11,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // 设置认证后首页（替代 RouteServiceProvider::HOME）/ 👇 这两行现在可能不生效，但未来有用
+        $middleware->redirectGuestsTo(fn () => route('login'));
+        $middleware->redirectUsersTo(fn () => '/'); // ← 已登录用户访问 /login 时跳这里
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

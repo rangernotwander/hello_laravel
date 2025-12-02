@@ -32,6 +32,18 @@
                                     个人中心
                                 </a>
                             </li>
+                            {{-- 👇 新增：编辑资料链接 --}}
+                            <li>
+                                <a class="dropdown-item" href="{{ route('users.edit', Auth::user()) }}">
+                                    编辑资料
+                                </a>
+                            </li>
+                            {{-- 👇 新增：用户列表 --}}
+                            <li>
+                                <a class="dropdown-item" href="{{ route('users.index') }}">
+                                    用户列表
+                                </a>
+                            </li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <form method="POST" action="{{ route('logout') }}" style="margin: 0;">
@@ -45,4 +57,4 @@
             </ul>
         </div>
     </div>
-</nav
+</nav>
