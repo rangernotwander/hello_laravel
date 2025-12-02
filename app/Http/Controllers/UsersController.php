@@ -15,7 +15,9 @@ class UsersController extends Controller
 
         // 除 show, create, store 外，其他操作需登录
         // $this->middleware('auth')->except(['show', 'create', 'store']);
-        $this->middleware('auth')->except(['create', 'store']);
+        //$this->middleware('auth')->except(['create', 'store']);
+            // 需要登录的操作：编辑、更新、删除等
+        $this->middleware('auth')->except(['index', 'show', 'create', 'store']);
     }
     // 显示用户注册页面
     public function create()
@@ -26,9 +28,9 @@ class UsersController extends Controller
     public function show(User $user)
     {
                 // 如果你想禁止查看他人资料：
-        if (Auth::id() !== $user->id) {
-            abort(403, '禁止访问他人资料');
-        }
+        // if (Auth::id() !== $user->id) {
+        //     abort(403, '禁止访问他人资料');
+        // }
         return view('users.show',compact('user'));
     }
 
@@ -97,6 +99,15 @@ class UsersController extends Controller
         $users = User::paginate(10);
 
         return view('users.index', compact('users'));
+    }
+
+    public function destroy(User $user)
+    {
+        $this->authorize('destroy', $user); // ← 关键：触发 UserPolicy@destroy
+
+        $user->delete();
+
+        return redirect()->back()->with('success', '成功删除用户！');
     }
 
 }

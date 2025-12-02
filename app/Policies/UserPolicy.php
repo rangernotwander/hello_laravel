@@ -21,4 +21,11 @@ class UserPolicy
     {
         return $currentUser->id === $user->id;
     }
+
+
+    public function destroy(User $currentUser, User $user): bool
+    {
+        // 管理员且不能删自己
+        return $currentUser->is_admin && $currentUser->id !== $user->id;
+    }
 }

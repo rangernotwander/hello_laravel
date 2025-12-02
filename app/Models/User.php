@@ -54,4 +54,6 @@ class User extends Authenticatable
         $hash = md5(strtolower(trim($this->email)));
         return "https://cdn.v2ex.com/gravatar/{$hash}?s={$size}";
     }
+
+
 }
