@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User; //← 必须引入 User 模型
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 class UsersController extends Controller
 {
     //构造方法中添加中间件验证
@@ -17,7 +18,7 @@ class UsersController extends Controller
         // $this->middleware('auth')->except(['show', 'create', 'store']);
         //$this->middleware('auth')->except(['create', 'store']);
             // 需要登录的操作：编辑、更新、删除等
-        $this->middleware('auth')->except(['index', 'show', 'create', 'store']);
+        $this->middleware('auth')->except(['index', 'show', 'create', 'store','confirmEmail']);
     }
     // 显示用户注册页面
     public function create()
@@ -44,11 +45,31 @@ class UsersController extends Controller
 
         // 创建用户（密码会自动哈希，因为 User 模型有 casts: 'password' => 'hashed'）
         $user = User::create($data);
-
+        $this->sendEmailConfirmationTo($user);
         // 闪存成功消息
-        session()->flash('success', '欢迎，您将在这里开启一段新的旅程~');
+        session()->flash('success', '验证邮件已发送到你的注册邮箱，请注意查收。');
 
-        // 重定向到用户个人页（例如 /users/1）
+        //
+        return redirect('/');
+    }
+    //发送邮件方法（Laravel 12 风格）
+    protected function sendEmailConfirmationTo(User $user): void
+    {
+        Mail::to($user->email)->send(new \App\Mail\ConfirmEmail($user));
+    }
+    //激活方法
+    public function confirmEmail(string $token)
+    {
+        $user = User::where('activation_token', $token)->firstOrFail();
+
+        $user->update([
+            'activated' => true,
+            'activation_token' => null,
+        ]);
+
+        Auth::login($user);
+
+        session()->flash('success', '恭喜你，激活成功！');
         return redirect()->route('users.show', $user);
     }
     // 用户资料编辑页面

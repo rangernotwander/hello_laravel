@@ -10,7 +10,7 @@
         <div class="card-body">
             {{-- 👇 引入全局错误提示 --}}
             @include('shared._errors')
-            <form method="POST" action="{{ route('users.store') }}" novalidate>
+            <form method="POST" action="{{ route('signup.store') }}" novalidate>
                 @csrf <!-- 必须添加 CSRF 保护 -->
 
                 <div class="mb-3">

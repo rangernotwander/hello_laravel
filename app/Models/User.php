@@ -6,7 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
+use Illuminate\Support\Str;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -32,7 +32,12 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
-
+    protected static function booted(): void
+        {
+            static::creating(function (User $user) {
+                $user->activation_token = Str::random(32); // 更长更安全
+            });
+        }
     /**
      * Get the attributes that should be cast.
      *

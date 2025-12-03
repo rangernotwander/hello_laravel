@@ -1,22 +1,26 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\StaticPagesController; // 引入 StaticPagesController
-use App\Http\Controllers\UsersController;       // 引入 UsersController
-use App\Http\Controllers\SessionsController;     // 添加这一行来引入 SessionsController
+use App\Http\Controllers\StaticPagesController; // 注意：你写的是 StaticPagesController
+use App\Http\Controllers\UsersController;
+use App\Http\Controllers\SessionsController;
 
-//静态页面路由
+// 静态页面
 Route::get('/', [StaticPagesController::class, 'home'])->name('home');
 Route::get('/help', [StaticPagesController::class, 'help'])->name('help');
 Route::get('/about', [StaticPagesController::class, 'about'])->name('about');
 
-//用户注册
+// 注册（独立于 users 资源）
 Route::get('/signup', [UsersController::class, 'create'])->name('signup');
+Route::post('/signup', [UsersController::class, 'store'])->name('signup.store'); // ← 添加 name
 
-// 用户资源路由
-Route::resource('users', UsersController::class);
+Route::get('/signup/confirm/{token}', [UsersController::class, 'confirmEmail'])
+    ->name('confirm_email');
+
+// 用户资料管理（排除注册相关）
+Route::resource('users', UsersController::class)->except(['create', 'store']);
 
 // 登录 & 退出
-Route::get('login', [SessionsController::class, 'create'])->name('login');
-Route::post('login', [SessionsController::class, 'store'])->name('login');
-Route::post('logout', [SessionsController::class, 'destroy'])->name('logout'); // 注意：改为 POST
+Route::get('/login', [SessionsController::class, 'create'])->name('login');
+Route::post('/login', [SessionsController::class, 'store']);
+Route::post('/logout', [SessionsController::class, 'destroy'])->name('logout');
