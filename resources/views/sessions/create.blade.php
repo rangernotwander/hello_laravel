@@ -21,6 +21,10 @@
 
         <div class="mb-3">
           <label for="password" class="form-label">密码：</label>
+              {{-- ✅ 新增：忘记密码链接 --}}
+            <a href="{{ route('password.request') }}" class="float-end small text-muted">
+            忘记密码？
+            </a>
           <input type="password" name="password" class="form-control" required>
         </div>
 

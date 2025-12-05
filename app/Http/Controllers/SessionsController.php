@@ -7,9 +7,16 @@ use Illuminate\Support\Facades\Auth;
 
 class SessionsController extends Controller
 {
-    /**
-     * 显示登录页面
-     */
+        /**
+         * 显示登录页面
+         */
+        public function __construct()
+    {
+        $this->middleware('guest')->only('create');
+
+        // 👇 登录限流（10分钟，10次）
+        $this->middleware('throttle:1000,10')->only('store');
+    }
     public function create()
     {
         // ✅ 如果用户已登录，直接重定向到首页（或个人中心）

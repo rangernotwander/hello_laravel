@@ -19,6 +19,9 @@ class UsersController extends Controller
         //$this->middleware('auth')->except(['create', 'store']);
             // 需要登录的操作：编辑、更新、删除等
         $this->middleware('auth')->except(['index', 'show', 'create', 'store','confirmEmail']);
+
+                // 👇 新增：注册限流（1小时=60分钟，10次）
+        $this->middleware('throttle:5100,60')->only('store');
     }
     // 显示用户注册页面
     public function create()
@@ -61,12 +64,17 @@ class UsersController extends Controller
     public function confirmEmail(string $token)
     {
         $user = User::where('activation_token', $token)->firstOrFail();
-
-        $user->update([
+// 打印更新前的状态
+    \Log::info("Before update: activated={$user->activated}, token={$user->activation_token}");
+     $result = $user->update([
             'activated' => true,
             'activation_token' => null,
         ]);
-
+        // 打印更新结果
+    \Log::info("Update result: " . ($result ? 'success' : 'failed'));
+    // 再查一次数据库（绕过模型缓存）
+    $fresh = User::find($user->id);
+    \Log::info("After update (fresh): activated={$fresh->activated}, token={$fresh->activation_token}");
         Auth::login($user);
 
         session()->flash('success', '恭喜你，激活成功！');

@@ -24,3 +24,14 @@ Route::resource('users', UsersController::class)->except(['create', 'store']);
 Route::get('/login', [SessionsController::class, 'create'])->name('login');
 Route::post('/login', [SessionsController::class, 'store']);
 Route::post('/logout', [SessionsController::class, 'destroy'])->name('logout');
+
+
+
+
+use App\Http\Controllers\PasswordController;
+
+// 忘记密码流程
+Route::get('/password/reset', [PasswordController::class, 'request'])->name('password.request');
+Route::post('/password/email', [PasswordController::class, 'email'])->name('password.email');
+Route::get('/password/reset/{token}', [PasswordController::class, 'resetForm'])->name('password.reset');
+Route::post('/password/reset', [PasswordController::class, 'update'])->name('password.update');
