@@ -18,5 +18,26 @@
             <p><strong>加入时间：</strong>{{ $user->created_at->format('Y-m-d') }}</p>
         </div>
     </div>
+
+    {{-- 微博动态区域 --}}
+    <section class="status mt-4">
+        @if ($statuses->count() > 0)
+            <ul class="list-unstyled">
+                @foreach ($statuses as $status)
+                    @include('statuses._status', ['status' => $status, 'user' => $status->user])
+                @endforeach
+            </ul>
+
+            <div class="mt-4">
+                {{ $statuses->links() }}
+            </div>
+        @else
+            <div class="card mt-4">
+                <div class="card-body text-muted">
+                    <p>该用户还没有发布任何微博。</p>
+                </div>
+            </div>
+        @endif
+    </section>
 </div>
 @endsection

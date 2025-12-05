@@ -35,7 +35,10 @@ class UsersController extends Controller
         // if (Auth::id() !== $user->id) {
         //     abort(403, '禁止访问他人资料');
         // }
-        return view('users.show',compact('user'));
+        $statuses = $user->statuses()
+        ->orderBy('created_at', 'desc')
+        ->paginate(10); // 教程用 10 条，合理
+        return view('users.show',compact('user','statuses'));
     }
 
     public function store(Request $request)
