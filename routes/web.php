@@ -35,3 +35,8 @@ Route::get('/password/reset', [PasswordController::class, 'request'])->name('pas
 Route::post('/password/email', [PasswordController::class, 'email'])->name('password.email');
 Route::get('/password/reset/{token}', [PasswordController::class, 'resetForm'])->name('password.reset');
 Route::post('/password/reset', [PasswordController::class, 'update'])->name('password.update');
+
+// 在文件末尾添加
+use App\Http\Controllers\StatusesController;
+
+Route::resource('statuses', StatusesController::class)->only(['store', 'destroy']);
