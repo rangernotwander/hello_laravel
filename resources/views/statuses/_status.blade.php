@@ -12,5 +12,20 @@
             <small class="text-muted">{{ $status->created_at->diffForHumans() }}</small>
         </div>
         <p class="mt-2 mb-0">{{ $status->content }}</p>
+                {{-- 删除按钮 --}}
+        @can('destroy', $status)
+            <form
+                action="{{ route('statuses.destroy', $status) }}"
+                method="POST"
+                onsubmit="return confirm('您确定要删除本条微博吗？')"
+                class="d-inline"
+            >
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-sm btn-outline-danger mt-2">
+                    删除
+                </button>
+            </form>
+        @endcan
     </div>
 </li>

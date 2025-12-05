@@ -29,10 +29,10 @@ class StatusesController extends Controller
     public function destroy(Status $status)
     {
         // 🔒 权限检查：只能删除自己的微博
-        if ($status->user_id !== Auth::id()) {
-            abort(403, '无权删除此微博');
-        }
-
+        // if ($status->user_id !== Auth::id()) {
+        //     abort(403, '无权删除此微博');
+        // }
+        $this->authorize('destroy', $status); // 使用 Policy 授权
         $status->delete();
 
         return back()->with('success', '微博已删除');
