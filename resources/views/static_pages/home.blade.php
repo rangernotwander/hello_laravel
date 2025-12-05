@@ -23,7 +23,7 @@
                         <h5 class="mb-0">最新动态</h5>
                     </div>
                     <div class="card-body">
-                        <p class="text-muted">动态流将在下一节实现...</p>
+                        @include('shared._feed')
                     </div>
                 </div>
             @else

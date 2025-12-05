@@ -65,6 +65,15 @@ class User extends Authenticatable
         return "https://cdn.v2ex.com/gravatar/{$hash}?s={$size}";
     }
 
+
+    /**
+     * 获取用户的微博动态流（当前仅包含自己的微博）
+     */
+    public function feed()
+    {
+        return $this->statuses()->orderBy('created_at', 'desc');
+    }
+
     // 在 User 模型中添加
 
     public function statuses()
